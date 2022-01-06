@@ -1,4 +1,4 @@
-name: CI Integration
+name: CI Integration (Docker)
 
 on:
   push:
@@ -28,3 +28,13 @@ jobs:
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+          
+    - uses: mr-smithers-excellent/docker-build-push@v5
+      name: Build & push Docker image (dsail/dsail-client)
+      with:
+          image: dsail/dsail-client
+          tags: v1, latest
+          Dockerfile : /home/runner/work/D-SAIL/D-SAIL/federated_learning/client/Dockerfile
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}          
