@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: CI Integration
 
 on:
   push:
@@ -17,4 +17,14 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Print Default Path
-      run: pwd
+      run: pwd 
+      
+    - uses: mr-smithers-excellent/docker-build-push@v5
+      name: Build & push Docker image (dsail/dsail-server)
+      with:
+          image: dsail/dsail-server
+          tags: v1, latest
+          Dockerfile : /home/runner/work/D-SAIL/D-SAIL/federated_learning/server/Dockerfile
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
