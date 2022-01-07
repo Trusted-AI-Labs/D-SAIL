@@ -9,4 +9,4 @@ RUN pip3 install flwr==0.16.0 numpy==1.21.2 fastai==2.5.2 torchvision==0.10.0 ma
 
 EXPOSE 8081
 COPY . .
-CMD python3 client.py 
+CMD python3 client-new.py 
