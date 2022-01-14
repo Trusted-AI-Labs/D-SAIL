@@ -19,7 +19,7 @@ The general framework encompasses tools allowing the training of a global model 
 0. Clone the repository
 
 ```
-git clone https://github.com/XavierLessage/D-SAIL.git
+git clone https://github.com/Trusted-AI-Labs/D-SAIL.git
 cd ResidualsTracking
 ```
 
