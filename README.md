@@ -19,7 +19,7 @@ The general framework encompasses tools allowing the training of a global model 
 0. Clone the repository
 
 ```
-git clone https://github.com/XavierLessage/D-SAIL.git
+git clone https://github.com/Trusted-AI-Labs/D-SAIL.git
 cd ResidualsTracking
 ```
 
@@ -47,12 +47,12 @@ Next, copy all your DICOM files in the appropriate folders.
 Check the path to your Python interpreter of your Anaconda environment, then run the command with your own path.
 
 ```
-E:/Anaconda3/envs/d-sail/python.exe dicom_converter/add_metadata.py path/to/input_folder 'value' '[tag]'
+E:/Anaconda3/envs/d-sail/python.exe dicom_converter/add_metadata.py path/to/input_folder/ 'value' '[tag]'
 ```
 
 For instance:
 ```
-E:/Anaconda3/envs/d-sail/python.exe  ~/d-sail/data/input/class1 '1' '[0x0014, 0x2016]'
+E:/Anaconda3/envs/d-sail/python.exe dicom_converter/add_metadata.py ~/d-sail/data/input/class1/ '1' '[0x0014, 0x2016]'
 ```
 
 4. Copy all files from different classes and place it together in the same folder:
@@ -67,37 +67,43 @@ cp -R data/input/class1/* data/input/all
 5. Pseudonimization & Hashing of DICOM files:
 
 ```
-E:/Anaconda3/envs/d-sail/python.exe dicom_pseudonimizer/anonymizer.py data/input/all data/input/all-pseudo --lookup=path/to/lookup_table.csv
+E:/Anaconda3/envs/d-sail/python.exe dicom_pseudonymizer/anonymizer.py data/input/all data/input/all-pseudo --lookup=path/to/lookup_table.csv
 ```
 
 For instance:
 
 ```
-E:/Anaconda3/envs/d-sail/python.exe dicom_pseudonimizer/anonymizer.py path/to/input_folder path/to/output_folder --lookup=path/to/lookup_table.csv
+E:/Anaconda3/envs/d-sail/python.exe dicom_pseudonymizer/anonymizer.py path/to/input_folder path/to/output_folder --lookup=path/to/lookup_table.csv
 ```
 
 If you wish to have you files renamed with the pseudonimized information, add the `--renameFiles` option
 
 6. Decompose DICOM files to PNG and JSON files
 
-`TODO, currently in a utility module`
+```
+E:/Anaconda3/envs/d-sail/python.exe dicom_converter/utils/dicom_to_img.py path/to/input_folder path/to/output_folder
+```
 
 7. Classify the data in different class folders 
 
 ```
-E:/Anaconda3/envs/d-sail/python.exe dicom_pseudonimizer/anonymizer.py path/to/input_folder '[tag]' path/to/output_folder
+E:/Anaconda3/envs/d-sail/python.exe dicom_converter/classify_data.py path/to/input_folder '[tag]' path/to/output_folder
 ```
 
 For instance:
 ```
-E:/Anaconda3/envs/d-sail/python.exe dicom_pseudonimizer/anonymizer.py data/input/all-pseudo '[tag]' data/output
+E:/Anaconda3/envs/d-sail/python.exe dicom_converter/classify_data.py data/input/all-pseudo '[tag]' data/output
 ```
 
 8. Divide the data in train/valid/test folders:
 
-`TODO, currently in a utility module`
+For instance:
 
-9. Split the data in multiple datasets, e.g. to get one for each hospital:
+```
+E:/Anaconda3/envs/d-sail/python.exe dicom_converter/utils/cat_to_dataset.py data/output/IMAGES/'
+```
+
+9. (Optional) Split the data in multiple datasets, e.g. to get one for each hospital:
 
 `TODO, currently in a utility module`
 

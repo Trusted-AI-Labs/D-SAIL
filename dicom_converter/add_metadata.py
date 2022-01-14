@@ -51,7 +51,7 @@ def go_through_folder(folderPath, label, tag):
     for file in os.listdir(folderPath):
         #print('file', file)
 
-        dcmFile = pydicom.dcmread(folderPath+file)
+        dcmFile = pydicom.dcmread(folderPath+file,force=True)
         newDcmFile = add_label_in_dcm(dcmFile, label, tag)
         newDcmFile.save_as(folderPath+file)
     
