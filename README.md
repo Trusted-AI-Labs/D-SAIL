@@ -95,7 +95,7 @@ For instance:
 E:/Anaconda3/envs/d-sail/python.exe dicom_converter/classify_data.py data/input/all-pseudo '[tag]' data/output
 ```
 
-9. (Optional) Split the data in multiple datasets, e.g. to get one for each hospital:
+8. (Optional) Split the data in multiple datasets, e.g. to get one for each hospital:
 
 For instance:
 
@@ -103,7 +103,7 @@ For instance:
 E:/Anaconda3/envs/d-sail/python.exe dicom_converter/utils/hospital_split.py data/output/IMAGES/'
 ```
 
-8. Divide the data in train/valid/test folders:
+9. Divide the data in train/valid/test folders:
 
 For instance:
 
