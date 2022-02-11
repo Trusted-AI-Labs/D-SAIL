@@ -15,6 +15,7 @@ import subprocess
 import cv2
 import pydicom
 import numpy as np
+import argparse
 
 def img_from_dicom(ds):
     '''
@@ -104,6 +105,9 @@ def dicom_from_img_or_json(file_path,output_folder,metadata_path=None,
     None.
     '''
     
+    if not os.path.isdir(output_folder):
+        os.mkdir(output_folder)
+    
     file_path_ex=file_path
     
     suffix=file_path.split(".")[-1]
@@ -129,7 +133,7 @@ def dicom_from_img_or_json(file_path,output_folder,metadata_path=None,
             suffixList=[suffix]
         for suff in suffixList:
             if os.path.exists(file_path+'.'+suff):
-                im=cv2.imread(file_path+'.'+suff)
+                im=cv2.imread(file_path+'.'+suff)               
                 img=im[:,:,0].flatten()
 
                 #ds.PixelData=bytes(img)
@@ -213,3 +217,39 @@ def get_tag_from_json(json_path,tag):
     value=ds[tag].value
     
     return value
+
+def decompose_all_dicoms(folder_path,output_path,img_format='bmp',removeImgInJson=False):
+    
+    if not output_path.endswith('/'):
+        output_path+='/'
+        
+    if not folder_path.endswith('/'):
+        folder_path+='/'
+        
+    if not os.path.isdir(output_path):
+        os.mkdir(output_path)
+    
+    for filename in os.listdir(folder_path):
+        
+        decompose_dicom(folder_path+filename,output_path,img_format=img_format,
+                        removeImgInJson=removeImgInJson)
+
+def main(defined_action_map = {}):
+    parser = argparse.ArgumentParser(add_help=True)
+    parser.add_argument('input', help='Path to the input dicom file or input directory which contains dicom files')
+    parser.add_argument('output', help='Path to the output dicom file or output directory which will contains dicom files')
+
+    parser.add_argument('--img_format', action='store', help='Desired output image file format (.png, .bmp, ...)')
+    parser.add_argument('--removeImgInJson', action='store_true', dest='removeImgInJson', help='If used, then image info will be removed from json')
+    parser.set_defaults(removeImgInJson=False)
+    parser.set_defaults(img_format='png')
+    args = parser.parse_args()
+    
+    folder_path = args.input
+    output_path = args.output 
+    
+    decompose_all_dicoms(folder_path,output_path,img_format=args.img_format,removeImgInJson=args.removeImgInJson)
+   
+
+if __name__=='__main__':
+    main()
