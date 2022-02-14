@@ -8,7 +8,7 @@ import random
 import numpy as np
 import argparse
 
-def hospital_split(datapath,number_of_datasplits = 3, split_percentages = np.array([0.5,0.3,0.2]), seed = 3):
+def hospital_split(datapath, split_percentages = np.array([0.5,0.3,0.2]), seed = 3):
     '''
 
     Parameters
@@ -27,6 +27,8 @@ def hospital_split(datapath,number_of_datasplits = 3, split_percentages = np.arr
     None.
 
     '''
+    
+    number_of_datasplits = len(split_percentages)
     
     ####### Parameters #######
     
@@ -72,7 +74,6 @@ def main():
     parser = argparse.ArgumentParser(add_help=True)
     parser.add_argument('input', help='directory should only contain folders with each category to classify. Each category fodler must only contain image files of that category.')
     
-    parser.add_argument('--number',action='store', help='Number of datasplits. Default is 3.')
     parser.add_argument('--percentages', action='store', help='Percentage of dataset to each hospital. Default is [0.7,0.2,0.1].')
     parser.add_argument('--seed', action='store', help='Random seed. Default is 3.')
     parser.set_defaults(number=3)
@@ -82,6 +83,6 @@ def main():
     
     datapath = args.input
     
-    hospital_split(datapath,number_of_datasplits = args.number, split_percentages = np.array(eval(args.percentages)), seed=args.seed)
+    hospital_split(datapath, split_percentages = np.array(eval(args.percentages)), seed=args.seed)
 if __name__=='__main__':
     main()

@@ -100,7 +100,7 @@ E:/Anaconda3/envs/d-sail/python.exe dicom_converter/classify_data.py data/input/
 For instance:
 
 ```
-E:/Anaconda3/envs/d-sail/python.exe dicom_converter/utils/hospital_split.py data/output/IMAGES/'
+E:/Anaconda3/envs/d-sail/python.exe dicom_converter/utils/hospital_split.py data/output/IMAGES/ --percentages [0.5,0.3,0.2]
 ```
 
 9. Divide the data in train/valid/test folders:
@@ -108,7 +108,7 @@ E:/Anaconda3/envs/d-sail/python.exe dicom_converter/utils/hospital_split.py data
 For instance:
 
 ```
-E:/Anaconda3/envs/d-sail/python.exe dicom_converter/utils/cat_to_dataset.py data/output/IMAGES/'
+E:/Anaconda3/envs/d-sail/python.exe dicom_converter/utils/cat_to_dataset.py data/output/IMAGES/ --percentages [0.75,0.15,0.10]
 ```
 
 ## Federated Learning
