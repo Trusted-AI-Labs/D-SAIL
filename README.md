@@ -26,7 +26,9 @@ cd ResidualsTracking
 1. Create the environment with Anaconda
 
 ```
-conda env create -f d-sail.yml
+conda env create -n d-sail python=3.7
+conda activate d-sail
+pip install -r requirements.txt
 ```
 
 2. Create the data folders
@@ -113,8 +115,28 @@ E:/Anaconda3/envs/d-sail/python.exe dicom_converter/utils/cat_to_dataset.py data
 
 ## Federated Learning
 
-`TODO`
+### Train on local machine
+
+1. Activate the environment
+
+```
+conda activate d-sail
+```
+
+2. Launch the server node
+
+```
+python federated_learning/server/server.py
+```
+
+3. Launch the client nodes (3x, or depending on the number of partners) with the appropriate data split path and number of epochs
+
+```
+python federated_learning/client/client.py  --data_path "../../Hospitals/Split_05_025_025/cancer_database/H0" --csv_path "../../results/H0/split_05_025_025.csv" --roc_path "../../results/H0/" --matrix_path "../../results/H0/" --epochs 2
+```
 
 ## References
 
 The code to pseudonimize the DICOM files was adapted from https://github.com/KitwareMedical/dicom-anonymizer, please refer to their repository for details on initial implementation.
+
+The federated learning framework used is https://github.com/adap/flower, please refer to their repository for details on implementation.
