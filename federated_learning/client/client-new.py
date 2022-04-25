@@ -4,7 +4,9 @@ from dsail.federated_learning import *
 from dsail.utils import *
 import os
 
-
+# / ! \
+# This file was created to comply to the Dockerfile
+# It is not up to date with the last modifications made to the clients H_federated and H_nofederated
 
 
 @call_parse
