@@ -83,6 +83,6 @@ def main():
     
     datapath = args.input
     
-    hospital_split(datapath, split_percentages = np.array(eval(args.percentages)), seed=args.seed)
+    hospital_split(datapath, split_percentages = np.array(args.percentages), seed=args.seed)
 if __name__=='__main__':
     main()
