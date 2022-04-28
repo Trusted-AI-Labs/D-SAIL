@@ -110,8 +110,10 @@ def dataset_to_cat(datapath=""):
 def main(defined_action_map={}):
 
     parser = argparse.ArgumentParser(add_help=True)
-    parser.add_argument("input", action='store', help='Folder containing the dataset.')
-    parser.add_argument("output", action='store', help='Path to new segmented dataset.')
+    parser.add_argument("input", action='store',
+                        help='Folder containing the dataset.')
+    parser.add_argument("output", action='store',
+                        help='Path to new segmented dataset.')
 
     parser.add_argument('--percentages', action='store',
                         help='Percentage of dataset to [trainset,validset,testset]. Default is [0.7,0.2,0.1].')
@@ -128,7 +130,6 @@ def main(defined_action_map={}):
     copy_tree(args.input, args.output)
     path = args.output
     perc = str(args.percentages).strip('][').split(',')
-    print(perc)
     percent = [float(x) for x in perc]
 
     cat_to_dataset(path, percentage=percent,  seed=args.seed)
