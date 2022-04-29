@@ -1,14 +1,11 @@
-'''
-    Splits a large dataset (grouped by category) into small datasets with custom individual sizes
-'''
-
 import shutil
 import os
 import random
 import numpy as np
 import argparse
 
-def hospital_split(datapath,number_of_datasplits = 3, split_percentages = np.array([0.5,0.3,0.2]), seed = 3):
+
+def hospital_split(input_path, output_path, split_percentages=[0.5, 0.3, 0.2], seed=3):
     '''
 
     Parameters
@@ -27,61 +24,73 @@ def hospital_split(datapath,number_of_datasplits = 3, split_percentages = np.arr
     None.
 
     '''
-    
-    ####### Parameters #######
-    
-    # datapath directory should only contain folders with each category to classify. Each category fodler must only contain image files of that category.
-    # datapath = "" 
-    
-    # Number of data splits and percentages
-    # number_of_datasplits = 3
-    # c = np.array([0.5,0.3,0.2]) # be careful that the sum of them is exactly = 1
-    number_of_datasplits_array = np.arange(1,number_of_datasplits+1)
-    
-    split_array = np.array([number_of_datasplits_array,split_percentages])
-    
-    #Randomization seed
-    # seed =3
-    
-    ####### find number of categories #######
-    
-    dirs = os.listdir(datapath)
-    
-    # fixed parameters
-        
-    for cat_name in dirs:
-        x=0
-        cat_set_min = 0
-        cat_set_max = 0
-        for x in range (0,number_of_datasplits):
-            cat_path  = datapath + '/' + cat_name + '/'
-            os.makedirs(datapath + '/' + cat_name + str(int(split_array[0,x])) + '/', exist_ok=True)    
-            cat_files = os.listdir(cat_path)
-            random.Random(seed).shuffle(cat_files) #to shuffle category data
-            if x == 0:
-                cat_total_files = len(cat_files)
-            cat_set_max = int(round(split_array[1,x] * cat_total_files))       
-            cat_set = cat_files[cat_set_min: cat_set_min + cat_set_max]
-            cat_set_min = cat_set_min + cat_set_max
-            for files in cat_set:
-                shutil.copy(cat_path + files, datapath + '/' + cat_name + str(int(split_array[0,x])) + '/')
-        shutil.rmtree(cat_path)                
+
+    for i, percent in enumerate(split_percentages):
+        os.makedirs(output_path + '/H' + str(i+1)+'/')
+        for cat_name in os.listdir(input_path):
+            os.makedirs(output_path + '/H' + str(i+1)+'/'+cat_name + '/')
+            for case in os.listdir(input_path + '/' + cat_name + '/'):
+                os.makedirs(output_path + '/H' + str(i+1)+'/' +
+                            cat_name + '/' + case + '/')
+
+                cat_files = os.listdir(
+                    input_path + '/' + cat_name + '/'+case+'/')
+                cat_set = cat_files[int(sum(split_percentages[0:i])*len(cat_files)): int(
+                    (sum(split_percentages[0:i])+split_percentages[i])*len(cat_files))]
+
+                for file in cat_set:
+                    shutil.copyfile(input_path + '/' + cat_name + '/'+case +
+                                    '/'+file,
+                                    output_path + '/H' + str(i+1)+'/' +
+                                    cat_name + '/' + case + '/'+file)
+
+        # cat_set_min = 0
+        # cat_path = datapath + '/' + cat_name + '/'
+        # cat_files = os.listdir(cat_path)
+        # # random.Random(seed).shuffle(cat_files)  # to shuffle category data
+
+        # for i, percent in enumerate(split_percentages):
+        #     for case in os.listdir(cat_path):
+        #         os.makedirs(datapath + '/H' + str(i+1)+'/' +
+        #                     cat_name + '/' + case + '/')
+        #         cat_set_max = int(round(percent * len(cat_files)))
+        #         cat_set = cat_files[cat_set_min: cat_set_min + cat_set_max]
+        #         cat_set_min += cat_set_max
+        #         for file in cat_set:
+        #             os.replace(cat_path + file, datapath + '/H' +
+        #                         str(i+1)+'/' + cat_name + '/' + case + '/'+file)
+        # shutil.rmtree(cat_path)
+
 
 def main():
-    
+
     parser = argparse.ArgumentParser(add_help=True)
-    parser.add_argument('input', help='directory should only contain folders with each category to classify. Each category fodler must only contain image files of that category.')
-    
-    parser.add_argument('--number',action='store', help='Number of datasplits. Default is 3.')
-    parser.add_argument('--percentages', action='store', help='Percentage of dataset to each hospital. Default is [0.7,0.2,0.1].')
-    parser.add_argument('--seed', action='store', help='Random seed. Default is 3.')
-    parser.set_defaults(number=3)
-    parser.set_defaults(percentages=[0.7,0.2,0.1])
+    parser.add_argument(
+        'input', help='directory should only contain folders with each category to classify. Each category fodler must only contain image files of that category.')
+    parser.add_argument('output', help='Path to output folder')
+
+    parser.add_argument('--percentages', action='store',
+                        help='Percentage of dataset to each hospital. Default is [0.7,0.2,0.1].')
+    parser.add_argument('--seed', action='store',
+                        help='Random seed. Default is 3.')
+    parser.set_defaults(percentages=[0.7, 0.2, 0.1])
     parser.set_defaults(seed=3)
     args = parser.parse_args()
-    
-    datapath = args.input
-    
-    hospital_split(datapath,number_of_datasplits = args.number, split_percentages = np.array(eval(args.percentages)), seed=args.seed)
-if __name__=='__main__':
+
+    perc = str(args.percentages).strip('][').split(',')
+    percent = [float(x) for x in perc]
+
+    output_path = args.output+'Split_' + \
+        str(int(percent[0]*100)) + '_' + \
+        str(int(percent[1]*100))+'_'+str(int(percent[2]*100))
+
+    if os.path.isdir(output_path):
+        shutil.rmtree(output_path)
+    os.mkdir(output_path)
+
+    hospital_split(args.input, output_path,
+                   split_percentages=percent, seed=args.seed)
+
+
+if __name__ == '__main__':
     main()

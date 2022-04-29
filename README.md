@@ -97,20 +97,20 @@ For instance:
 E:/Anaconda3/envs/d-sail/python.exe dicom_converter/classify_data.py data/input/all-pseudo '[tag]' data/output
 ```
 
-8. (Optional) Split the data in multiple datasets, e.g. to get one for each hospital:
+8. Divide the data in train/valid/test folders:
 
 For instance:
 
 ```
-E:/Anaconda3/envs/d-sail/python.exe dicom_converter/utils/hospital_split.py data/output/IMAGES/'
+E:/Anaconda3/envs/d-sail/python.exe dicom_converter/utils/cat_to_dataset.py /Database/Raw/ /Database/H/ --percentages [0.7,0.2,0.1]
 ```
 
-9. Divide the data in train/valid/test folders:
+9. (Optional) Split the data in multiple datasets, e.g. to get one for each hospital:
 
 For instance:
 
 ```
-E:/Anaconda3/envs/d-sail/python.exe dicom_converter/utils/cat_to_dataset.py data/output/IMAGES/'
+E:/Anaconda3/envs/d-sail/python.exe dicom_converter/utils/hospital_split.py /Database/H/ /Database/ --percentages [0.5,0.3,0.2]
 ```
 
 ## Federated Learning
