@@ -26,11 +26,11 @@ def hospital_split(input_path, output_path, split_percentages=[0.5, 0.3, 0.2], s
     '''
 
     for i, percent in enumerate(split_percentages):
-        os.makedirs(output_path + '/H' + str(i+1)+'/')
+        os.makedirs(output_path + '/H' + str(i)+'/')
         for cat_name in os.listdir(input_path):
-            os.makedirs(output_path + '/H' + str(i+1)+'/'+cat_name + '/')
+            os.makedirs(output_path + '/H' + str(i)+'/'+cat_name + '/')
             for case in os.listdir(input_path + '/' + cat_name + '/'):
-                os.makedirs(output_path + '/H' + str(i+1)+'/' +
+                os.makedirs(output_path + '/H' + str(i)+'/' +
                             cat_name + '/' + case + '/')
 
                 cat_files = os.listdir(
@@ -41,7 +41,7 @@ def hospital_split(input_path, output_path, split_percentages=[0.5, 0.3, 0.2], s
                 for file in cat_set:
                     shutil.copyfile(input_path + '/' + cat_name + '/'+case +
                                     '/'+file,
-                                    output_path + '/H' + str(i+1)+'/' +
+                                    output_path + '/H' + str(i)+'/' +
                                     cat_name + '/' + case + '/'+file)
 
         # cat_set_min = 0

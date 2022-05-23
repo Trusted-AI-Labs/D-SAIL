@@ -129,10 +129,21 @@ conda activate d-sail
 python federated_learning/server/server.py
 ```
 
-3. Launch the client nodes (3x, or depending on the number of partners) with the appropriate data split path and number of epochs
+3a. Launch the client nodes (3x, or depending on the number of partners) with the appropriate data split path and number of epochs
 
 ```
-python federated_learning/client/client.py  --data_path "../../Hospitals/Split_05_025_025/cancer_database/H0" --csv_path "../../results/H0/split_05_025_025.csv" --roc_path "../../results/H0/" --matrix_path "../../results/H0/" --epochs 2
+python federated_learning/client/H_federated.py --split "50_33_17" --db_loc "Hospitals" --db "cancer" --res_loc "results" --hospital "H0" --resize 50
+```
+
+3b. To train solely on local data, use `H_nofederated` script instead, also in the client folder: 
+```
+python federated_learning/client/H_nofederated.py --split "50_33_17" --db_loc "Hospitals" --db "cancer" --res_loc "results" --hospital "H0" --resize 50
+```
+
+Note: You can use the following command to see the complete set of parameters available:
+```
+python federated_learning/client/H_federated.py -h
+python federated_learning/client/H_nofederated.py -h
 ```
 
 ## References

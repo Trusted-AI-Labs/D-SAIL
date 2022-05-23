@@ -33,7 +33,7 @@ def main(
     min_available_clients : Param("The minimum number of clients used to start server", int)=3,
     min_eval_clients : Param("The minimum number of clients used for evaluation", int)=3,
     num_rounds : Param("The number of rounds of training", int)=3,
-    res_loc : Param("Set a path to save weights", str)='../../results',
+    res_loc : Param("Set a path to save weights", str)='results',
     db: Param("Pass the used database", str)='cancer_database',
     split: Param("Pass the split proportion to use", str)='50_33_17'
 ):

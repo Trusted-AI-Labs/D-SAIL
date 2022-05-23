@@ -1,3 +1,5 @@
+import torch
+import torch.nn.functional as F
 from opacus import PrivacyEngine, privacy_analysis
 from fastcore.basics import *
 from fastai.callback.all import *
@@ -15,7 +17,7 @@ class DPCallback(Callback):
         
         for x, y in zip(self.x, self.y):
             y_pred = self.learn.model(x[None])
-            label = torch.tensor([y], device=device)
+            label = torch.tensor([y], device=self.device)
             new_loss = F.cross_entropy(y_pred, label)
             new_loss.backward()
             

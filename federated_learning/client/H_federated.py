@@ -14,7 +14,7 @@ def main(
     bs: Param("Batch size to use", int)=64,
     device:  Param("Which device to use", str)='cuda:0',
     port: Param("The port used for federated learning", int)=8080,
-    apply_dp:    Param("Apply differential privacy", store_true)=True,
+    apply_dp:    Param("Apply differential privacy", bool_arg)=False,
     alphas: Param("Alphas", range)=range(2,32),
     noise_multiplier: Param("Noise injected in DP", int)=0.5, 
     max_grad_norm: Param("Maximum Gradient Norm when clipping", int)=1.0,
@@ -24,8 +24,8 @@ def main(
     db_loc: Param("Pass the path where the database is stored", str)='Hospitals',
     db: Param("Pass the used database", str)='cancer_database',
     res_loc: Param("Pass the path where the results will be stored", str)='results',
-    hospital: Param("Pass the hospital number", str)="H0"
-
+    hospital: Param("Pass the hospital number", str)='H0',
+    resize: Param("Pass the size of the image (square resize)", int)=50
 ): 
 
     device=torch.device(device)
@@ -43,7 +43,7 @@ def main(
     dblock = DataBlock(blocks=(ImageBlock, CategoryBlock),
         get_items = get_image_files,
         get_y = parent_label,
-        item_tfms = [Resize(32)],
+        item_tfms = [Resize(resize)],
         splitter = GrandparentSplitter(), 
         )
 
