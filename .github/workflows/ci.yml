@@ -19,6 +19,9 @@ jobs:
     - name: Print Default Path
       run: pwd 
       
+    - name: ls Default Path
+      run: ls 
+      
     - uses: mr-smithers-excellent/docker-build-push@v5
       name: Build & push Docker image (dsail/dsail-server)
       with:
